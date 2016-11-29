@@ -48,7 +48,7 @@ class NaturalMovie(StimulusAnalysis):
         Numpy array
         '''
         sweep_response = pd.DataFrame(index=self.stim_table.index.values, columns=np.array(
-            range(self.numbercells)).astype(str))
+            list(range(self.numbercells))).astype(str))
         for index, row in self.stim_table.iterrows():
             start = row.start
             end = start + self.sweeplength
@@ -71,7 +71,7 @@ class NaturalMovie(StimulusAnalysis):
             * peak_nm1 (frame with peak response)
             * response_variability_nm1
         '''
-        peak_movie = pd.DataFrame(index=range(self.numbercells), columns=(
+        peak_movie = pd.DataFrame(index=list(range(self.numbercells)), columns=(
             'peak', 'response_reliability', 'cell_specimen_id'))
         cids = self.data_set.get_cell_specimen_ids()
 

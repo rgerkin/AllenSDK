@@ -19,7 +19,7 @@ import warnings
 import logging
 from collections import Counter
 
-import ephys_features as ft
+from . import ephys_features as ft
 
 # Constants for stimulus-specific analysis
 RAMPS_START = 1.02
@@ -129,13 +129,13 @@ class EphysSweepFeatureExtractor:
 
         # Trough details
         isi_types = trough_details[0]
-        trough_detail_indexes = dict(zip(["fast_trough", "adp", "slow_trough"], trough_details[1:]))
+        trough_detail_indexes = dict(list(zip(["fast_trough", "adp", "slow_trough"], trough_details[1:])))
 
         # Redundant, but ensures that DataFrame has right number of rows
         # Any better way to do it?
         spikes_df = DataFrame(data=thresholds, columns=["threshold_index"])
 
-        for k, vals in vit_data_indexes.iteritems():
+        for k, vals in vit_data_indexes.items():
             spikes_df[k + "_index"] = np.nan
             spikes_df[k + "_t"] = np.nan
             spikes_df[k + "_v"] = np.nan
@@ -150,7 +150,7 @@ class EphysSweepFeatureExtractor:
                 if len(vals) > 0:
                     spikes_df.ix[:len(vals) - 1, k + "_i"] = self.i[vals]
 
-        for k, vals in dvdt_data_indexes.iteritems():
+        for k, vals in dvdt_data_indexes.items():
             spikes_df[k + "_index"] = np.nan
             spikes_df[k] = np.nan
             if len(vals) > 0:
@@ -161,7 +161,7 @@ class EphysSweepFeatureExtractor:
 
         spikes_df["isi_type"] = isi_types
 
-        for k, vals in trough_detail_indexes.iteritems():
+        for k, vals in trough_detail_indexes.items():
             spikes_df[k + "_index"] = np.nan
             if np.any(~np.isnan(vals)):
                 spikes_df.ix[~np.isnan(vals), k + "_index"] = vals[~np.isnan(vals)]
@@ -210,7 +210,7 @@ class EphysSweepFeatureExtractor:
                 "avg_rate": ft.average_rate(t, thresholds, self.start, self.end),
             }
 
-        for k, v in sweep_level_features.iteritems():
+        for k, v in sweep_level_features.items():
             self._sweep_features[k] = v
 
     def _process_pauses(self, cost_weight=1.0):
@@ -538,7 +538,7 @@ class EphysSweepFeatureExtractor:
 
     def sweep_feature_keys(self):
         """Get list of every available sweep-level feature."""
-        return self._sweep_features.keys()
+        return list(self._sweep_features.keys())
 
     def as_dict(self):
         """Create dict of features and spikes."""
@@ -609,7 +609,7 @@ class EphysSweepSetFeatureExtractor:
             raise ValueError("t_set and i_set must have the same number of items")
 
         if id_set is None:
-            id_set = range(len(t_set))
+            id_set = list(range(len(t_set)))
         if len(id_set) != len(t_set):
             raise ValueError("t_set and id_set must have the same number of items")
 
@@ -706,12 +706,12 @@ class EphysCellFeatureExtractor:
         }
 
         if keys is None:
-            keys = dispatch.keys()
+            keys = list(dispatch.keys())
 
         if type(keys) is not list:
             keys = [keys]
 
-        for k in [j for j in keys if j in dispatch.keys()]:
+        for k in [j for j in keys if j in list(dispatch.keys())]:
             dispatch[k]()
 
     def _analyze_ramps(self):
@@ -739,7 +739,7 @@ class EphysCellFeatureExtractor:
         if len(spiking_sweeps) == 0:
             raise ft.FeatureError("No spiking short square sweeps, cannot compute cell features.")
 
-        most_common = Counter(map(_short_step_stim_amp, spiking_sweeps)).most_common()
+        most_common = Counter(list(map(_short_step_stim_amp, spiking_sweeps))).most_common()
         common_amp, common_count = most_common[0]
         for c in most_common[1:]:
             if c[1] < common_count:
@@ -845,7 +845,7 @@ class EphysCellFeatureExtractor:
         else:
             ext = self._long_squares_ext
 
-        return np.array(map(_step_stim_amp, ext.sweeps()))
+        return np.array(list(map(_step_stim_amp, ext.sweeps())))
 
     def cell_features(self):
         return self._features
@@ -927,7 +927,7 @@ def fit_fi_slope(ext):
     if len(ext.sweeps()) < 2:
         raise ft.FeatureError("Cannot fit f-I curve slope with less than two suprathreshold sweeps")
 
-    x = np.array(map(_step_stim_amp, ext.sweeps()))
+    x = np.array(list(map(_step_stim_amp, ext.sweeps())))
     y = ext.sweep_features("avg_rate")
 
     A = np.vstack([x, np.ones_like(x)]).T

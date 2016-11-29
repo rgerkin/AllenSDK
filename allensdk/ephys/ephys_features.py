@@ -524,7 +524,7 @@ def analyze_trough_details(v, t, spike_indexes, peak_indexes, end=None, filter=1
             slow_trough_indexes.append(np.nan)
 
     # If we had to kick some spikes out before, need to add nans at the end
-    output = map(np.array, (isi_types, fast_trough_indexes, adp_indexes, slow_trough_indexes))
+    output = list(map(np.array, (isi_types, fast_trough_indexes, adp_indexes, slow_trough_indexes)))
     if orig_len > len(isi_types):
         extra = np.zeros(orig_len - len(isi_types)) * np.nan
         output = tuple((np.append(o, extra) for o in output))
@@ -865,7 +865,7 @@ def detect_bursts(isis, isi_types, fast_tr_v, fast_tr_t, slow_tr_v, slow_tr_t,
     if len(into_burst) != len(out_of_burst):
         raise FeatureError("Inconsistent burst boundary identification")
 
-    inout_pairs = zip(into_burst, out_of_burst)
+    inout_pairs = list(zip(into_burst, out_of_burst))
     delta_t = slow_tr_t - fast_tr_t
 
     scores = _score_burst_set(inout_pairs, isis, delta_t)

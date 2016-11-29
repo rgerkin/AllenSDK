@@ -96,13 +96,13 @@ class StimulusAnalysis(object):
         StimulusAnalysis._log.info(
             'Calculating speed tuning, spontaneous vs visually driven')
 
-        celltraces_trimmed = np.delete(self.dfftraces, range(
-            len(self.dxcm), np.size(self.dfftraces, 1)), axis=1)
+        celltraces_trimmed = np.delete(self.dfftraces, list(range(
+            len(self.dxcm), np.size(self.dfftraces, 1))), axis=1)
 
         # pull out spontaneous epoch(s)
         spontaneous = self.data_set.get_stimulus_table('spontaneous')
 
-        peak_run = pd.DataFrame(index=range(self.numbercells), columns=(
+        peak_run = pd.DataFrame(index=list(range(self.numbercells)), columns=(
             'speed_max_sp', 'speed_min_sp', 'ptest_sp', 'mod_sp', 'speed_max_vis', 'speed_min_vis', 'ptest_vis', 'mod_vis'))
 
         dx_sp = self.dxcm[spontaneous.start.iloc[-1]:spontaneous.end.iloc[-1]]
@@ -271,15 +271,15 @@ class StimulusAnalysis(object):
             if peak_run.speed_max_sp[nc] > peak_run.speed_min_sp[nc]:
                 test_values = celltraces_sorted_sp[
                     nc, start_max * binsize:(start_max + 1) * binsize]
-                other_values = np.delete(celltraces_sorted_sp[nc, :], range(
-                    start_max * binsize, (start_max + 1) * binsize))
+                other_values = np.delete(celltraces_sorted_sp[nc, :], list(range(
+                    start_max * binsize, (start_max + 1) * binsize)))
                 (_, peak_run.ptest_sp[nc]) = st.ks_2samp(
                     test_values, other_values)
             else:
                 test_values = celltraces_sorted_sp[
                     nc, start_min * binsize:(start_min + 1) * binsize]
-                other_values = np.delete(celltraces_sorted_sp[nc, :], range(
-                    start_min * binsize, (start_min + 1) * binsize))
+                other_values = np.delete(celltraces_sorted_sp[nc, :], list(range(
+                    start_min * binsize, (start_min + 1) * binsize)))
                 (_, peak_run.ptest_sp[nc]) = st.ks_2samp(
                     test_values, other_values)
             temp = binned_cells_vis[nc, :, 0]
@@ -290,13 +290,13 @@ class StimulusAnalysis(object):
             if peak_run.speed_max_vis[nc] > peak_run.speed_min_vis[nc]:
                 test_values = celltraces_sorted_vis[
                     nc, start_max * binsize:(start_max + 1) * binsize]
-                other_values = np.delete(celltraces_sorted_vis[nc, :], range(
-                    start_max * binsize, (start_max + 1) * binsize))
+                other_values = np.delete(celltraces_sorted_vis[nc, :], list(range(
+                    start_max * binsize, (start_max + 1) * binsize)))
             else:
                 test_values = celltraces_sorted_vis[
                     nc, start_min * binsize:(start_min + 1) * binsize]
-                other_values = np.delete(celltraces_sorted_vis[nc, :], range(
-                    start_min * binsize, (start_min + 1) * binsize))
+                other_values = np.delete(celltraces_sorted_vis[nc, :], list(range(
+                    start_min * binsize, (start_min + 1) * binsize)))
             (_, peak_run.ptest_vis[nc]) = st.ks_2samp(
                 test_values, other_values)
 
@@ -327,7 +327,7 @@ class StimulusAnalysis(object):
 
         StimulusAnalysis._log.info('Calculating responses for each sweep')
         sweep_response = pd.DataFrame(index=self.stim_table.index.values, columns=np.array(
-            range(self.numbercells + 1)).astype(str))
+            list(range(self.numbercells + 1))).astype(str))
         sweep_response.rename(
             columns={str(self.numbercells): 'dx'}, inplace=True)
         for index, row in self.stim_table.iterrows():

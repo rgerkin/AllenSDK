@@ -49,12 +49,12 @@ def testManifestBuilderDataFrame(builder):
                      parent_key='BASEDIR')
     builder_df = builder.as_dataframe()
 
-    assert('key' in builder_df.keys())
-    assert('type' in builder_df.keys())
-    assert('spec' in builder_df.keys())
-    assert('parent_key' in builder_df.keys())
-    assert('format' in builder_df.keys())
-    assert(5 == len(builder_df.keys()))
+    assert('key' in list(builder_df.keys()))
+    assert('type' in list(builder_df.keys()))
+    assert('spec' in list(builder_df.keys()))
+    assert('parent_key' in list(builder_df.keys()))
+    assert('format' in list(builder_df.keys()))
+    assert(5 == len(list(builder_df.keys())))
 
 
 def testManifestDataFrame(builder):
@@ -65,6 +65,6 @@ def testManifestDataFrame(builder):
     manifest = builder.get_manifest()
     df = manifest.as_dataframe()
 
-    assert('type' in df.keys())
-    assert('spec' in df.keys())
-    assert(2 == len(df.keys()))
+    assert('type' in list(df.keys()))
+    assert('spec' in list(df.keys()))
+    assert(2 == len(list(df.keys())))

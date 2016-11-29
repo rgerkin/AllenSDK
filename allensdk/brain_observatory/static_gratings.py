@@ -111,7 +111,7 @@ class StaticGratings(StimulusAnalysis):
         '''
         StaticGratings._log.info('Calculating peak response properties')
 
-        peak = pd.DataFrame(index=range(self.numbercells), columns=('ori_sg', 'sf_sg', 'phase_sg', 'response_reliability_sg',
+        peak = pd.DataFrame(index=list(range(self.numbercells)), columns=('ori_sg', 'sf_sg', 'phase_sg', 'response_reliability_sg',
                                                                     'osi_sg', 'peak_dff_sg', 'ptest_sg', 'time_to_peak_sg', 'duration_sg', 'cell_specimen_id'))
         cids = self.data_set.get_cell_specimen_ids()
 

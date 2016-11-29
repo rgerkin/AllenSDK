@@ -86,7 +86,7 @@ def plot_drifting_grating_traces(dg, save_dir):
                 ax.axvspan(0, dg.sweeplength / dg.acquisition_rate,
                            ymin=0, ymax=1, facecolor='gray', alpha=0.3)
                 ax.set_xlim(-1, 3)
-                ax.set_xticks(range(-1, 4))
+                ax.set_xticks(list(range(-1, 4)))
                 ax.yaxis.set_major_locator(MaxNLocator(4))
                 vmax = np.where(np.amax(subset_response_p) >
                                 vmax, np.amax(subset_response_p), vmax)
@@ -392,15 +392,15 @@ def _plot_3sa(dg, nm1, nm3, save_dir):
         ax6.set_ylabel("Mean DF/F (%)", fontsize=20)
         ax6.yaxis.set_major_locator(MaxNLocator(6))
 
-        ax7.errorbar(range(5), dg.response[peakori, 1:, nc, 0], yerr=dg.response[
+        ax7.errorbar(list(range(5)), dg.response[peakori, 1:, nc, 0], yerr=dg.response[
                      peakori, 1:, nc, 1], fmt='bo-', lw=2)
-        ax7.fill_between(range(5), np.repeat(dg.response[0, 0, nc, 0] + dg.response[0, 0, nc, 1], 5), np.repeat(
+        ax7.fill_between(list(range(5)), np.repeat(dg.response[0, 0, nc, 0] + dg.response[0, 0, nc, 1], 5), np.repeat(
             dg.response[0, 0, nc, 0] - dg.response[0, 0, nc, 1], 5), color='gray', alpha=0.5)
         ax7.axhline(y=dg.response[0, 0, nc, 0], ls='--', color='k', lw=2)
         ax7.annotate(str(dg.orivals[peakori]) + " Deg",
                      xy=(0, 0.9), xycoords='axes fraction', fontsize=14)
         ax7.set_xlim(-0.2, 4.2)
-        ax7.set_xticks(range(5))
+        ax7.set_xticks(list(range(5)))
         ax7.set_xticklabels(dg.tfvals[1:])
         ax7.set_xlabel("Temporal frequency (Hz)", fontsize=20)
 
@@ -425,10 +425,10 @@ def _plot_3sa(dg, nm1, nm3, save_dir):
         im = ax9.imshow(dg.response[:, 1:, nc, 0],
                         cmap='gray', interpolation='none')
         ax9.set_ylabel("Direction (d)", fontsize=20)
-        ax9.set_yticks(range(8))
+        ax9.set_yticks(list(range(8)))
         ax9.set_yticklabels(dg.orivals)
         ax9.set_xlabel("Temporal frequency (Hz)", fontsize=20)
-        ax9.set_xticks(range(5))
+        ax9.set_xticks(list(range(5)))
         ax9.set_xticklabels(dg.tfvals[1:])
         cbar = plt.colorbar(im, ax=ax9)
         cbar.ax.set_ylabel('DF/F (%)', fontsize=8)
@@ -713,19 +713,19 @@ def _plot_3sb(sg, nm1, ns, save_dir):
         ax3.set_xlabel("Orientation (d)", fontsize=20)
         ax3.set_ylabel("DF/F (%)", fontsize=20)
 
-        ax4.errorbar(range(5), sg.response[peakori, 1:, 0, nc, 0], yerr=sg.response[
+        ax4.errorbar(list(range(5)), sg.response[peakori, 1:, 0, nc, 0], yerr=sg.response[
                      peakori, 1:, 0, nc, 1], color='blue', fmt='o-', lw=2)
-        ax4.errorbar(range(5), sg.response[peakori, 1:, 1, nc, 0], yerr=sg.response[
+        ax4.errorbar(list(range(5)), sg.response[peakori, 1:, 1, nc, 0], yerr=sg.response[
                      peakori, 1:, 1, nc, 1], color='cornflowerblue', fmt='o-', lw=2)
-        ax4.errorbar(range(5), sg.response[peakori, 1:, 2, nc, 0], yerr=sg.response[
+        ax4.errorbar(list(range(5)), sg.response[peakori, 1:, 2, nc, 0], yerr=sg.response[
                      peakori, 1:, 2, nc, 1], color='steelblue', fmt='o-', lw=2)
-        ax4.errorbar(range(5), sg.response[peakori, 1:, 3, nc, 0], yerr=sg.response[
+        ax4.errorbar(list(range(5)), sg.response[peakori, 1:, 3, nc, 0], yerr=sg.response[
                      peakori, 1:, 3, nc, 1], color='lightskyblue', fmt='o-', lw=2)
-        ax4.fill_between(range(5), np.repeat(sg.response[0, 0, 0, nc, 0] + sg.response[0, 0, 0, nc, 1], 5), np.repeat(
+        ax4.fill_between(list(range(5)), np.repeat(sg.response[0, 0, 0, nc, 0] + sg.response[0, 0, 0, nc, 1], 5), np.repeat(
             sg.response[0, 0, 0, nc, 0] - sg.response[0, 0, 0, nc, 1], 5), color='gray', alpha=0.5)
         ax4.axhline(y=sg.response[0, 0, 0, nc, 0], ls='--', color='k', lw=2)
         ax4.set_xlim(-0.2, 4.2)
-        ax4.set_xticks(range(5))
+        ax4.set_xticks(list(range(5)))
         ax4.set_xticklabels(sg.sfvals[1:])
         ax4.set_xlabel("Spatial frequency (cpd)", fontsize=20)
 
@@ -764,37 +764,37 @@ def _plot_3sb(sg, nm1, ns, save_dir):
         ax5.imshow(sg.response[:, 1:, 0, nc, 0], cmap='gray',
                    interpolation='none', vmin=0, vmax=Vmax)
         ax5.set_ylabel("Orientation (d)", fontsize=20)
-        ax5.set_yticks(range(6))
+        ax5.set_yticks(list(range(6)))
         ax5.set_yticklabels(sg.orivals)
         ax5.set_xlabel("Spatial frequency (cpd)", fontsize=20)
-        ax5.set_xticks(range(5))
+        ax5.set_xticks(list(range(5)))
         ax5.set_xticklabels(sg.sfvals[1:])
         ax5.set_title("Phase 0.0", color='blue', fontsize=20)
 
         ax6.imshow(sg.response[:, 1:, 1, nc, 0], cmap='gray',
                    interpolation='none', vmin=0, vmax=Vmax)
         ax6.set_xlabel("Spatial frequency (cpd)", fontsize=20)
-        ax6.set_xticks(range(5))
+        ax6.set_xticks(list(range(5)))
         ax6.set_xticklabels(sg.sfvals[1:])
-        ax6.set_yticks(range(6))
+        ax6.set_yticks(list(range(6)))
         ax6.set_yticklabels(sg.orivals)
         ax6.set_title("Phase 0.25", color='cornflowerblue', fontsize=20)
 
         ax7.imshow(sg.response[:, 1:, 2, nc, 0], cmap='gray',
                    interpolation='none', vmin=0, vmax=Vmax)
         ax7.set_xlabel("Spatial frequency (cpd)", fontsize=20)
-        ax7.set_xticks(range(5))
+        ax7.set_xticks(list(range(5)))
         ax7.set_xticklabels(sg.sfvals[1:])
-        ax7.set_yticks(range(6))
+        ax7.set_yticks(list(range(6)))
         ax7.set_yticklabels(sg.orivals)
         ax7.set_title("Phase 0.5", color='steelblue', fontsize=20)
 
         ax8.imshow(sg.response[:, 1:, 3, nc, 0], cmap='gray',
                    interpolation='none', vmin=0, vmax=Vmax)
         ax8.set_xlabel("Spatial frequency (cpd)", fontsize=20)
-        ax8.set_xticks(range(5))
+        ax8.set_xticks(list(range(5)))
         ax8.set_xticklabels(sg.sfvals[1:])
-        ax8.set_yticks(range(6))
+        ax8.set_yticks(list(range(6)))
         ax8.set_yticklabels(sg.orivals)
         ax8.set_title("Phase 0.75", color='lightskyblue', fontsize=20)
 
@@ -819,9 +819,9 @@ def _plot_3sb(sg, nm1, ns, save_dir):
         scene_response = pd.DataFrame(temp, columns=('response', 'error'))
         scene_response = scene_response.sort(
             columns='response', ascending=False)
-        ax11.errorbar(range(ns.number_scenes - 1), scene_response.response,
+        ax11.errorbar(list(range(ns.number_scenes - 1)), scene_response.response,
                       yerr=scene_response.error, fmt='o', color='k')
-        ax11.fill_between(range(ns.number_scenes - 1), np.repeat(ns.response[0, nc, 0] + ns.response[0, nc, 1], ns.number_scenes - 1), np.repeat(
+        ax11.fill_between(list(range(ns.number_scenes - 1)), np.repeat(ns.response[0, nc, 0] + ns.response[0, nc, 1], ns.number_scenes - 1), np.repeat(
             ns.response[0, nc, 0] - ns.response[0, nc, 1], ns.number_scenes - 1), color='gray', alpha=0.3)
         ax11.axhline(y=ns.response[0, nc, 0], ls='--', lw=2, color='k')
         ax11.set_xlim(-2, 120)
@@ -934,9 +934,9 @@ def plot_running_a(dg, nm1, nm3, save_dir):
                     cmap='gray', interpolation='none')
     ax5.set_ylabel("Direction", fontsize=16)
     ax5.set_xlabel("TF", fontsize=16)
-    ax5.set_yticks(range(dg.number_ori))
+    ax5.set_yticks(list(range(dg.number_ori)))
     ax5.set_yticklabels(list(dg.orivals.astype(int).astype(str)))
-    ax5.set_xticks(range(dg.number_tf - 1))
+    ax5.set_xticks(list(range(dg.number_tf - 1)))
     ax5.set_xticklabels(list(dg.tfvals[1:].astype(int).astype(str)))
     cbar = plt.colorbar(im, ax=ax5)
     cbar.ax.set_ylabel('Speed (cm/s)', fontsize=8)

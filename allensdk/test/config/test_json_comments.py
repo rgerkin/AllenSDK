@@ -19,8 +19,8 @@ from mock import patch, mock_open, Mock
 from allensdk.core.json_utilities import JsonComments
 import logging
 try:
-    import __builtin__ as builtins  # @UnresolvedImport
-    from __builtin__ import ValueError
+    import builtins as builtins  # @UnresolvedImport
+    from builtins import ValueError
 except:
     import builtins  # @UnresolvedImport
     from builtins import ValueError

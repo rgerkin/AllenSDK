@@ -59,7 +59,7 @@ class SessionAnalysis(object):
         self.metadata = self.nwb.get_metadata()
 
     def append_metadata(self, df):
-        for k, v in self.metadata.iteritems():
+        for k, v in self.metadata.items():
             df[k] = v
 
     def save_session_a(self, dg, nm1, nm3, peak):

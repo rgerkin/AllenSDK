@@ -18,4 +18,4 @@ soma = morphology.soma
 # all compartments are dictionaries of compartment properties
 # compartments also keep track of ids of their children
 for child in morphology.children_of(soma):
-    print(child['x'], child['y'], child['z'], child['radius'])
+    print((child['x'], child['y'], child['z'], child['radius']))

@@ -290,7 +290,7 @@ class BrainObservatoryNwbDataSet(object):
         '''
 
         with h5py.File(self.nwb_file, 'r') as f:
-            keys = f["stimulus/presentation/"].keys()
+            keys = list(f["stimulus/presentation/"].keys())
         return [k.replace('_stimulus', '') for k in keys]
 
     def get_stimulus_table(self, stimulus_name):
@@ -446,7 +446,7 @@ class BrainObservatoryNwbDataSet(object):
 
             inds = None
             if cell_specimen_ids is None:
-                inds = range(len(self.get_cell_specimen_ids()))
+                inds = list(range(len(self.get_cell_specimen_ids())))
             else:
                 inds = self.get_cell_specimen_indices(cell_specimen_ids)
 
@@ -473,7 +473,7 @@ class BrainObservatoryNwbDataSet(object):
         meta = {}
 
         with h5py.File(self.nwb_file, 'r') as f:
-            for memory_key, disk_key in BrainObservatoryNwbDataSet.FILE_METADATA_MAPPING.items():
+            for memory_key, disk_key in list(BrainObservatoryNwbDataSet.FILE_METADATA_MAPPING.items()):
                 try:
                     v = f[disk_key].value
 
@@ -723,8 +723,8 @@ def warp_stimulus_coords(vertices,
 
 def make_display_mask(display_shape=(1920, 1200)):
     ''' Build a display-shaped mask that indicates which pixels are on screen after warping the stimulus. '''
-    x = np.array(range(display_shape[0])) - display_shape[0] / 2
-    y = np.array(range(display_shape[1])) - display_shape[1] / 2
+    x = np.array(list(range(display_shape[0]))) - display_shape[0] / 2
+    y = np.array(list(range(display_shape[1]))) - display_shape[1] / 2
     display_coords = np.array(list(itertools.product(x, y)))
 
     warped_coords = warp_stimulus_coords(display_coords).astype(int)

@@ -39,7 +39,7 @@ def sessions_with_stimulus(stimulus):
     """ Return the names of the sessions that contain a given stimulus. """
     
     sessions = set()
-    for session, session_stimuli in SESSION_STIMULUS_MAP.iteritems():
+    for session, session_stimuli in SESSION_STIMULUS_MAP.items():
         if stimulus in session_stimuli:
             sessions.add(session)
 
@@ -59,4 +59,4 @@ def stimuli_in_session(session):
 
 def all_stimuli():
     """ Return a list of all stimuli in the data set """
-    return set([v for k, vl in SESSION_STIMULUS_MAP.iteritems() for v in vl])
+    return set([v for k, vl in SESSION_STIMULUS_MAP.items() for v in vl])

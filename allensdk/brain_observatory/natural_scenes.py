@@ -89,7 +89,7 @@ class NaturalScenes(StimulusAnalysis):
             * duration_ns
         '''
         NaturalScenes._log.info('Calculating peak response properties')
-        peak = pd.DataFrame(index=range(self.numbercells), columns=('scene_ns', 'response_reliability_ns', 'peak_dff_ns',
+        peak = pd.DataFrame(index=list(range(self.numbercells)), columns=('scene_ns', 'response_reliability_ns', 'peak_dff_ns',
                                                                     'ptest_ns', 'p_run_ns', 'run_modulation_ns', 'time_to_peak_ns', 'duration_ns', 'cell_specimen_id'))
         cids = self.data_set.get_cell_specimen_ids()
 

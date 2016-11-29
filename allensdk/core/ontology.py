@@ -33,7 +33,7 @@ class Ontology(object):
                 parent_id = int(parent_id)
                 child_ids[parent_id].add(s['id'])
 
-            parent_id_list = map(int, s['structure_id_path'].split('/')[1:-1])
+            parent_id_list = list(map(int, s['structure_id_path'].split('/')[1:-1]))
 
             for parent_id in parent_id_list:
                 descendant_ids[parent_id].add(s['id'])
@@ -76,7 +76,7 @@ class Ontology(object):
                 # if it's a pandas series, assume it's a series of structure
                 # ids
                 structure_ids.update(s.tolist())
-            elif isinstance(s, str) or isinstance(s, unicode):
+            elif isinstance(s, str) or isinstance(s, str):
                 # if it's a string, assume it's an acronym
                 string_strs.append(s)
             else:

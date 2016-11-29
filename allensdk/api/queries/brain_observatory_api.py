@@ -420,7 +420,7 @@ class BrainObservatoryApi(RmaTemplate):
             if op == 'in':
                 query_args = [field, str(value)]
             elif type(value) is list:
-                query_args = [field] + map(_quote_string, value)
+                query_args = [field] + list(map(_quote_string, value))
             else:
                 query_args = [field, str(value)]
 

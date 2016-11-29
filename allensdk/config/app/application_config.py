@@ -23,7 +23,7 @@ from pkg_resources import resource_filename  # @UnresolvedImport
 try:
     from configparser import ConfigParser  # @UnresolvedImport
 except:
-    from ConfigParser import ConfigParser  # @UnresolvedImport
+    from configparser import ConfigParser  # @UnresolvedImport
 
 
 class ApplicationConfig(object):
@@ -69,7 +69,7 @@ class ApplicationConfig(object):
 
         self.argparser = self.create_argparser()
 
-        for key, value in self.defaults.items():
+        for key, value in list(self.defaults.items()):
             setattr(self, key, value['default'])
 
     def load(self, command_line_args, disable_existing_loggers=True):
@@ -148,7 +148,7 @@ class ApplicationConfig(object):
         '''
         parser = argparse.ArgumentParser(prog=self.application_name,
                                          description=self.help)
-        for key, value in self.defaults.items():
+        for key, value in list(self.defaults.items()):
             if key == 'config_file_path':
                 parser.add_argument(
                     "%s" % (key), default=None, help=value['help'])

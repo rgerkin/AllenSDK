@@ -191,11 +191,11 @@ class NwbDataSet(object):
 
         with h5py.File(self.file_name, 'r+') as f:
             # make sure expected directory structure is in place
-            if "analysis" not in f.keys():
+            if "analysis" not in list(f.keys()):
                 f.create_group("analysis")
 
             analysis_dir = f["analysis"]
-            if NwbDataSet.SPIKE_TIMES not in analysis_dir.keys():
+            if NwbDataSet.SPIKE_TIMES not in list(analysis_dir.keys()):
                 #   analysis_dir.create_group(NwbDataSet.SPIKE_TIMES)
                 g = analysis_dir.create_group(NwbDataSet.SPIKE_TIMES)
                 # mixup in specification for validator resulted everything
@@ -208,7 +208,7 @@ class NwbDataSet(object):
 
             # see if desired dataset already exists
             sweep_name = "Sweep_%d" % sweep_number
-            if sweep_name in spike_dir.keys():
+            if sweep_name in list(spike_dir.keys()):
                 # rewriting data -- delete old dataset
                 del spike_dir[sweep_name]
 
@@ -220,7 +220,7 @@ class NwbDataSet(object):
 
         with h5py.File(self.file_name, 'r') as f:
             sweeps = [int(e.split('_')[1])
-                      for e in f['epochs'].keys() if e.startswith('Sweep_')]
+                      for e in list(f['epochs'].keys()) if e.startswith('Sweep_')]
             return sweeps
 
     def get_experiment_sweep_numbers(self):
@@ -228,7 +228,7 @@ class NwbDataSet(object):
 
         with h5py.File(self.file_name, 'r') as f:
             sweeps = [int(e.split('_')[1])
-                      for e in f['epochs'].keys() if e.startswith('Experiment_')]
+                      for e in list(f['epochs'].keys()) if e.startswith('Experiment_')]
             return sweeps
 
     def fill_sweep_responses(self, fill_value=0.0, sweep_numbers=None):
@@ -247,8 +247,8 @@ class NwbDataSet(object):
         with h5py.File(self.file_name, 'a') as f:
             if sweep_numbers is None:
                 # no sweep numbers given, grab all of them
-                epochs = [k for k in f[
-                    'epochs'].keys() if k.startswith('Sweep_')]
+                epochs = [k for k in list(f[
+                    'epochs'].keys()) if k.startswith('Sweep_')]
             else:
                 epochs = ['Sweep_%d' %
                           sweep_number for sweep_number in sweep_numbers]
@@ -290,7 +290,7 @@ class NwbDataSet(object):
                     'Sweep_%d' % sweep_number]
                 for field in metadata_fields:
                     # check if sweep contains the specific metadata field
-                    if field in stim_details.keys():
+                    if field in list(stim_details.keys()):
                         sweep_metadata[field] = stim_details[field].value
 
             except KeyError:

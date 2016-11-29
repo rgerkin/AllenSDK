@@ -120,8 +120,8 @@ class Compartment(dict):
 
     def print_node(self):
         """ print out compartment information with field names """
-        print("%d %d %.4f %.4f %.4f %.4f %d %s %d" % (self[_N], self[_TYP], self[
-              _X], self[_Y], self[_Z], self[_R], self[_P], str(self[_C]), self[_TID]))
+        print(("%d %d %.4f %.4f %.4f %.4f %d %s %d" % (self[_N], self[_TYP], self[
+              _X], self[_Y], self[_Z], self[_R], self[_P], str(self[_C]), self[_TID])))
 
 
 class Morphology(object):
@@ -208,7 +208,7 @@ class Morphology(object):
     @compartment_index.setter
     def compartment_index(self, compartment_index):
         """ Update the compartment index.  Update the compartment list. """
-        self._set_compartments(compartment_index.values())
+        self._set_compartments(list(compartment_index.values()))
 
     @property
     def num_trees(self):
@@ -486,7 +486,7 @@ class Morphology(object):
         keep = {}
         # figure out which compartments to toss
         ct = 0
-        for i, c in compartments.iteritems():
+        for i, c in compartments.items():
             pid = c[NODE_PN]
             cid = c[NODE_ID]
             ctype = c[NODE_TYPE]
@@ -499,7 +499,7 @@ class Morphology(object):
             ct += 1
 
         # hook children up to their new parents
-        for i, c in compartments.iteritems():
+        for i, c in compartments.items():
             comp_id = c[NODE_ID]
             if keep[comp_id] is False:
                 parent_id = c[NODE_PN]
@@ -510,14 +510,14 @@ class Morphology(object):
 
         # filter out the orphans
         sparsified_compartments = {k: v for k,
-                                   v in compartments.iteritems() if keep[k]}
+                                   v in compartments.items() if keep[k]}
         if compress_ids:
-            ids = sorted(sparsified_compartments.keys(), key=lambda x: int(x))
+            ids = sorted(list(sparsified_compartments.keys()), key=lambda x: int(x))
             id_hash = {fid: str(i + 1) for i, fid in enumerate(ids)}
             id_hash[-1] = -1
             # build the final compartment index
             out_compartments = {}
-            for cid, compartment in sparsified_compartments.iteritems():
+            for cid, compartment in sparsified_compartments.items():
                 compartment[NODE_ID] = id_hash[cid]
                 compartment[NODE_PN] = id_hash[compartment[NODE_PN]]
                 out_compartments[compartment[NODE_ID]] = compartment
@@ -900,8 +900,8 @@ class Morphology(object):
         for seg in self.compartment_list:
             if seg[NODE_PN] >= 0:
                 if seg[NODE_PN] >= n:
-                    print("Parent for node %d is invalid (%d)" %
-                          (seg[NODE_ID], seg[NODE_PN]))
+                    print(("Parent for node %d is invalid (%d)" %
+                          (seg[NODE_ID], seg[NODE_PN])))
                     errs += 1
         # make sure that each tree has exactly one root
         for i in range(self.num_trees):
@@ -910,11 +910,11 @@ class Morphology(object):
             for j in range(len(tree)):
                 if tree[j][NODE_PN] == -1:
                     if root >= 0:
-                        print("Too many roots in tree %d" % i)
+                        print(("Too many roots in tree %d" % i))
                         errs += 1
                     root = j
             if root == -1:
-                print("No root present in tree %d" % i)
+                print(("No root present in tree %d" % i))
                 errs += 1
         # make sure each axon has at most one root
         # find type boundaries. at each axon boundary, walk back up
@@ -934,7 +934,7 @@ class Morphology(object):
                         break
                     par_id = par[NODE_PN]
         if errs > 0:
-            print("Failed consistency check: %d errors encountered" % errs)
+            print(("Failed consistency check: %d errors encountered" % errs))
         return errs
 
     def _find_type_boundary(self):
@@ -962,7 +962,7 @@ class Morphology(object):
         if n < 0:
             return
         if n >= self.num_trees:
-            print("Error -- attempted to delete non-existing tree (%d)" % n)
+            print(("Error -- attempted to delete non-existing tree (%d)" % n))
             raise ValueError
         tree = self.tree(n)
         for i in range(len(tree)):

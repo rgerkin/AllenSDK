@@ -368,7 +368,7 @@ def calculate_traces(stack, mask_list):
     # calcualte traces
     for frame_num in range(num_frames):
         if frame_num % 1000 == 0:
-            print("frame " + str(frame_num) + " of " + str(num_frames))
+            print(("frame " + str(frame_num) + " of " + str(num_frames)))
         frame = stack[frame_num]
         mask = None
         try:
@@ -381,10 +381,10 @@ def calculate_traces(stack, mask_list):
                 tvals = total / area
                 traces[i][frame_num] = tvals
         except:
-            print("Error encountered processing mask during frame %d" % frame_num)
+            print(("Error encountered processing mask during frame %d" % frame_num))
             if mask is not None:
-                print(subframe.shape)
-                print(mask.mask.shape)
+                print((subframe.shape))
+                print((mask.mask.shape))
                 print(mask)
             raise
     return traces

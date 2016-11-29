@@ -279,8 +279,7 @@ class BiophysicalApi(Api):
 
         if not well_known_file_id_dict or \
            (not any(well_known_file_id_dict.values())):
-            raise(Exception("No data found for neuronal model id %d" %
-                            (neuronal_model_id)))
+            raise Exception
 
         Manifest.safe_mkdir(working_directory)
 
@@ -290,22 +289,22 @@ class BiophysicalApi(Api):
         modfile_dir = os.path.join(working_directory, 'modfiles')
         Manifest.safe_mkdir(modfile_dir)
 
-        for key, id_dict in well_known_file_id_dict.items():
+        for key, id_dict in list(well_known_file_id_dict.items()):
             if (not self.cache_stimulus) and (key == 'stimulus'):
                 continue
 
-            for well_known_id, filename in id_dict.items():
+            for well_known_id, filename in list(id_dict.items()):
                 well_known_file_url = self.construct_well_known_file_download_url(
                     well_known_id)
                 cached_file_path = os.path.join(working_directory, filename)
                 self.retrieve_file_over_http(
                     well_known_file_url, cached_file_path)
 
-        fit_path = self.ids['fit'].values()[0]
-        stimulus_filename = self.ids['stimulus'].values()[0]
-        swc_morphology_path = self.ids['morphology'].values()[0]
+        fit_path = list(self.ids['fit'].values())[0]
+        stimulus_filename = list(self.ids['stimulus'].values())[0]
+        swc_morphology_path = list(self.ids['morphology'].values())[0]
         marker_path = \
-            self.ids['marker'].values()[0] if 'marker' in self.ids else ''
+            list(self.ids['marker'].values())[0] if 'marker' in self.ids else ''
         sweeps = sorted(self.sweeps)
 
         self.create_manifest(fit_path,

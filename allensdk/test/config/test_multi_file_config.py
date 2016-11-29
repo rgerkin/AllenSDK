@@ -18,7 +18,7 @@ import pytest
 from mock import patch, mock_open
 from allensdk.config.model.description_parser import DescriptionParser
 try:
-    import __builtin__ as builtins
+    import builtins as builtins
 except:
     import builtins
 
@@ -82,7 +82,7 @@ def testAllSectionsPresent(multiconfig):
     assert ('section_A' in multiconfig.data and
             'section_B' in multiconfig.data and
             'section_C' in multiconfig.data)
-    assert len(multiconfig.data.keys()) == 3
+    assert len(list(multiconfig.data.keys())) == 3
 
 
 def testSectionA(multiconfig):

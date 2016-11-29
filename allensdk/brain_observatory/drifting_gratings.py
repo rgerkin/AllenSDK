@@ -13,7 +13,7 @@
 # You should have received a copy of the GNU General Public License
 # along with Allen SDK.  If not, see <http://www.gnu.org/licenses/>.
 
-from stimulus_analysis import StimulusAnalysis
+from .stimulus_analysis import StimulusAnalysis
 import scipy.stats as st
 import pandas as pd
 import numpy as np
@@ -102,7 +102,7 @@ class DriftingGratings(StimulusAnalysis):
         '''
         DriftingGratings._log.info('Calculating peak response properties')
 
-        peak = pd.DataFrame(index=range(self.numbercells), columns=('ori_dg', 'tf_dg', 'response_reliability_dg',
+        peak = pd.DataFrame(index=list(range(self.numbercells)), columns=('ori_dg', 'tf_dg', 'response_reliability_dg',
                                                                     'osi_dg', 'dsi_dg', 'peak_dff_dg', 'ptest_dg', 'p_run_dg', 'run_modulation_dg', 'cv_dg', 'cell_specimen_id'))
         cids = self.data_set.get_cell_specimen_ids()
 

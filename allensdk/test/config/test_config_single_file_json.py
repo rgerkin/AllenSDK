@@ -18,7 +18,7 @@ import pytest
 from mock import patch, mock_open
 from allensdk.model.biophys_sim.config import Config
 try:
-    import __builtin__ as builtins  # @UnresolvedImport
+    import builtins as builtins  # @UnresolvedImport
 except:
     import builtins  # @UnresolvedImport
 

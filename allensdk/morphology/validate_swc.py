@@ -58,7 +58,7 @@ def validate_swc(swc_file):
 
     # sort the ids and make sure there are no gaps
     sorted_ids = sorted(all_ids)
-    for i in xrange(1, len(sorted_ids)):
+    for i in range(1, len(sorted_ids)):
         if sorted_ids[i] - sorted_ids[i - 1] != 1:
             raise Exception("Compartment IDs are not sequential")
     return True
@@ -72,7 +72,7 @@ def main():
         args = parser.parse_args()
         validate_swc(args.swc_file)
     except Exception as e:
-        print(str(e))
+        print((str(e)))
         exit(1)
 if __name__ == "__main__":
     main()

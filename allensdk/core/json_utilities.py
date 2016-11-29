@@ -27,7 +27,7 @@ except ImportError:
 try:
     from urllib.parse import urlparse
 except ImportError:
-    import urlparse
+    import urllib.parse
 
 
 def read(file_name):
@@ -103,10 +103,10 @@ def read_url_post(url):
     Note: if the input is a bare array or literal, for example,
     the output will be of the corresponding type.
     '''
-    urlp = urlparse.urlparse(url)
-    main_url = urlparse.urlunsplit(
+    urlp = urllib.parse.urlparse(url)
+    main_url = urllib.parse.urlunsplit(
         (urlp.scheme, urlp.netloc, urlp.path, '', ''))
-    data = json.dumps(dict(urlparse.parse_qsl(urlp.query)))
+    data = json.dumps(dict(urllib.parse.parse_qsl(urlp.query)))
 
     handler = urllib_request.HTTPHandler()
     opener = urllib_request.build_opener(handler)
@@ -146,7 +146,7 @@ def json_handler(obj):
           isinstance(obj, np.uint32) or
           isinstance(obj, np.uint16) or
           isinstance(obj, np.uint8)):
-        return long(obj)
+        return int(obj)
     elif hasattr(obj, 'isoformat'):
         return obj.isoformat()
     else:

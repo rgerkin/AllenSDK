@@ -63,7 +63,7 @@ class ManifestBuilder(object):
 
     def get_config(self):
         wrapper = {"manifest": self.path_info}
-        for section in self.sections.values():
+        for section in list(self.sections.values()):
             wrapper.update(section)
 
         return wrapper
@@ -82,5 +82,5 @@ class ManifestBuilder(object):
     def from_dataframe(self, df):
         self.path_info = {}
 
-        for _, k, p, s, t, f in df.loc[:, ManifestBuilder.df_columns].iteritems():
+        for _, k, p, s, t, f in df.loc[:, ManifestBuilder.df_columns].items():
             self.add_path(k, s, typename=t, parent=p, format=f)
